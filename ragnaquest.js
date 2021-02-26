@@ -40,11 +40,11 @@ function onMessageHandler(target, context, msg, self) {
         fetch(infoRequest, settings)
             .then(res => res.json())
             .then((json) => {
-                if(json.title === undefined){
+                if (json.title === undefined) {
                     client.say(target, "RagnaSong non trouvée");
                     return;
                 }
-                client.say(target, "requete demandée : " + json.title+" by "+json.artist+", difficultés : "+json.difficulty+", Envoyé par "+json.ownerUsername);
+                client.say(target, "requete demandée : " + json.title + " by " + json.artist + ", difficultés : " + json.difficulty + ", Envoyé par " + json.ownerUsername);
                 let file = homedir + "/Documents/Ragnarock/CustomSongs/" + r[1] + ".zip";
                 let folder = homedir + "/Documents/Ragnarock/CustomSongs/";
                 var req = request(
@@ -62,21 +62,16 @@ function onMessageHandler(target, context, msg, self) {
                 );
 
                 req.pipe(fs.createWriteStream(file));
-                req.on('end', function() {
+                req.on('end', function () {
                     var zip = new AdmZip(file),
                         zipEntries = zip.getEntries();
                     zip.extractEntryTo(zipEntries[0], folder);
-                    fs.unlink(file,()=>{});
+                    fs.unlink(file, () => {
+                    });
                     client.say(target, "Musique prête à etre jouée");
                 });
             });
-
-
-
-
     }
-
-
 }
 
 
@@ -87,4 +82,9 @@ client.connect();
 // // Called every time the bot connects to Twitch chat
 function onConnectedHandler(addr, port) {
     console.log(`* Connected to ${addr}:${port}`);
+    // creation des dossiers necessaires
+    fs.mkdir(homedir + "/Documents/Ragnarock/", false, () => {
+    });
+    fs.mkdir(homedir + "/Documents/Ragnarock/CustomSongs/", false, () => {
+    });
 }
