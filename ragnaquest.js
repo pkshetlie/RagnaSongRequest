@@ -1,12 +1,13 @@
-const tmi = require('tmi.js');
-const fetch = require('node-fetch');
-const homedir = require('os').homedir();
-
-let http = require('http'),
+let
+    AdmZip = require('adm-zip'),
+    dotenv = require('dotenv').config(),
+    fetch = require('node-fetch'),
     fs = require('fs'),
+    homedir = require('os').homedir(),
+    http = require('http'),
     request = require('request'),
-    AdmZip = require('adm-zip');
-require('dotenv').config()
+    tmi = require('tmi.js')
+;
 
 // Define configuration options
 const opts = {
@@ -22,12 +23,19 @@ const opts = {
 
 // Create a client with our options
 const client = new tmi.client(opts);
-
 // Register our event handlers (defined below)
 client.on('message', onMessageHandler);
+client.on('connected', onConnectedHandler);
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
+client.connect();
+
+function onConnectedHandler(addr, port) {
+    console.log(`* Connected to ${addr}:${port}`);
+    // creation des dossiers necessaires
+    fs.mkdir(homedir + "/Documents/Ragnarock/", false, () => {
+    });
+    fs.mkdir(homedir + "/Documents/Ragnarock/CustomSongs/", false, () => {
+    });
 }
 
 function onMessageHandler(target, context, msg, self) {
@@ -72,19 +80,4 @@ function onMessageHandler(target, context, msg, self) {
                 });
             });
     }
-}
-
-
-client.on('connected', onConnectedHandler);
-client.connect();
-
-
-// // Called every time the bot connects to Twitch chat
-function onConnectedHandler(addr, port) {
-    console.log(`* Connected to ${addr}:${port}`);
-    // creation des dossiers necessaires
-    fs.mkdir(homedir + "/Documents/Ragnarock/", false, () => {
-    });
-    fs.mkdir(homedir + "/Documents/Ragnarock/CustomSongs/", false, () => {
-    });
 }
