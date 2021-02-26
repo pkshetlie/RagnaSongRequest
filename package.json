@@ -1,0 +1,19 @@
+{
+  "name": "ragnaquest",
+  "version": "1.0.0",
+  "description": "An application to automate the download of sounds from RagnaSong.com via a request in the twitch chat",
+  "main": "ragnaquest.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "adm-zip": "^0.5.3",
+    "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.1",
+    "request": "^2.88.2",
+    "tmi.js": "^1.7.1"
+  }
+}
