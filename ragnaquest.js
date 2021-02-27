@@ -5,7 +5,6 @@ let
     fs = require('fs'),
     homedir = require('os').homedir(),
     http = require('http'),
-    request = require('request'),
     tmi = require('tmi.js')
 ;
 
@@ -20,7 +19,7 @@ const opts = {
         ]
     }
 ;
-if(opts.identity.username === undefined || opts.identity.password === undefined || opts.channels.length === 0 ){
+if (opts.identity.username === undefined || opts.identity.password === undefined || opts.channels.length === 0) {
     console.log('Il manque les parametrages');
 }
 // Create a client with our options
@@ -40,11 +39,29 @@ function onConnectedHandler(addr, port) {
     });
 }
 
+let downloaded = [];
+
+const downloadFile = (async (url, path) => {
+    const res = await fetch(url);
+    const fileStream = fs.createWriteStream(path);
+    await new Promise((resolve, reject) => {
+        res.body.pipe(fileStream);
+        res.body.on("error", reject);
+        fileStream.on("finish", resolve);
+    });
+});
+
 function onMessageHandler(target, context, msg, self) {
     if (self) return
+
     if (msg.match(/!rq ([a-zA-Z0-9]*)/)) {
         console.log("requete demandée");
         let r = msg.split(' ');
+        if (downloaded.includes(r[1])) {
+            client.say(target, "RagnaSong déjà demandée");
+            return;
+        }
+        downloaded.push(r[1]);
         let infoRequest = "https://ragnasong.com/api/getMap/" + r[1]
         let settings = {method: "Get"};
         fetch(infoRequest, settings)
@@ -57,29 +74,30 @@ function onMessageHandler(target, context, msg, self) {
                 client.say(target, "requete demandée : " + json.title + " by " + json.artist + ", difficultés : " + json.difficulty + ", Envoyé par " + json.ownerUsername);
                 let file = homedir + "/Documents/Ragnarock/CustomSongs/" + r[1] + ".zip";
                 let folder = homedir + "/Documents/Ragnarock/CustomSongs/";
-                var req = request(
-                    {
-                        method: 'GET',
-                        uri: "https://ragnasong.com/api/map/" + r[1] + ".zip",
-                        headers: {
-                            "User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.97 Safari/537.11",
-                            "Accept-Encoding": "gzip,deflate,sdch",
-                            "encoding": "null",
-                            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                            "Cookie": "cookie"
-                        }
-                    }
-                );
 
-                req.pipe(fs.createWriteStream(file));
-                req.on('end', function () {
-                    var zip = new AdmZip(file),
-                        zipEntries = zip.getEntries();
-                    zip.extractEntryTo(zipEntries[0], folder);
-                    fs.unlink(file, () => {
+                downloadFile("https://ragnasong.com/api/map/" + r[1] + ".zip", file)
+                    .then(response => {
+                        let zip = new AdmZip(file),
+                            zipEntries = zip.getEntries();
+                        try {
+                            zipEntries.forEach(function (zipEntry) {
+                                let name = zipEntry.entryName.toString();
+                                let songFolder = json.title;
+                                if (!name.match(/autosave/)) {
+                                    let spl = name.split('/');
+                                    if (spl.length === 1) {
+                                        zip.extractEntryTo(zipEntry, folder + songFolder.trim() + "/");
+                                    } else {
+                                        zip.extractEntryTo(zipEntry, folder);
+                                    }
+                                }
+                            });
+                        } catch (e) {
+                            console.log(e)
+                        }
+                        fs.unlink(file, () => {});
+                        client.say(target, "Musique prête à etre jouée");
                     });
-                    client.say(target, "Musique prête à etre jouée");
-                });
             });
     }
 }
