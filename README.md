@@ -1,23 +1,42 @@
 # RagnaSong
-An application to automate the download of sounds from RagnaSong.com via a request in the twitch chat
+Application pour automatiser le téléchargement de chansons depuis [RagnaSong.com](https://ragnasong.com) pour les streamers twitch
 
-# Requirements
-NodeJs
+# Comment l'utiliser 
+## pour le streamer : 
+Récupérer la release en fonction de votre OS
+Décompresser l'archive dans un fichier
+Modifier le fichier .env
+
+Démarrer l'applciation comme n'importe quelle autre.
+
+## Pour les viewers
+Aller sur [RagnaSong.com](https://ragnasong.com)
+cliquer sur la chanson choisie, dans l'url vous pouvez voir par exemple : ```https://ragnasong.com/m/84``` regardez le 84 c'est l'ID de la chanson, copiez le et coller dans le tchat du streamer : 
+```!rq <song ID>```
+
+Avec notre exemple :
+```!rq 84```
+
+___________________
+In English
+
+# RagnaSong
+An application to automate the download of sounds from RagnaSong.com via a request in the twitch chat
 
 # how to use
 
 ## for streamer : 
-download the release for your os
-unzip in a folder
-edit .env file
+Download the release for your os
+Unzip in a folder
+Edit .env file
 
-start applicatioon like others
+Start applicatioon like others
 
 ## for viewer
 
-go to [RagnaSong.com](http://ragnasong.com)
-click on the selected song, in url you ca see for example : ```https://ragnasong.com/m/84``` look for the 84 it's the song ID, keep it and past : 
+go to [RagnaSong.com](https://ragnasong.com)
+Click on the selected song, in url you ca see for example : ```https://ragnasong.com/m/84``` look for the 84 it's the song ID, keep it and past : 
 ```!rq <song ID>```
 
-in our example :
+In our example :
 ```!rq 84```
