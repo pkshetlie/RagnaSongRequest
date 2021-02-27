@@ -1,5 +1,5 @@
 {
-  "name": "ragnaquest",
+  "name": "ragnasongquest",
   "version": "1.0.1",
   "description": "An application to automate the download of sounds from RagnaSong.com via a request in the twitch chat",
   "main": "ragnaquest.js",
