@@ -20,7 +20,9 @@ const opts = {
         ]
     }
 ;
-
+if(opts.identity.username === undefined || opts.identity.password === undefined || opts.channels.length === 0 ){
+    console.log('Il manque les parametrages');
+}
 // Create a client with our options
 const client = new tmi.client(opts);
 // Register our event handlers (defined below)
