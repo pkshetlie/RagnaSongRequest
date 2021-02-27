@@ -4,11 +4,20 @@ An application to automate the download of sounds from RagnaSong.com via a reque
 # Requirements
 NodeJs
 
-# installation
-in root directory : 
-```npm install```
+# how to use
 
-then edit the content of .env.demo and remove the .demo
+## for streamer : 
+download the release for your os
+unzip in a folder
+edit .env file
 
-do
-```npm ragnaquest.js```
+start applicatioon like others
+
+## for viewer
+
+go to [RagnaSong.com](http://ragnasong.com)
+click on the selected song, in url you ca see for example : ```https://ragnasong.com/m/84``` look for the 84 it's the song ID, keep it and past : 
+```!rq <song ID>```
+
+in our example :
+```!rq 84```
