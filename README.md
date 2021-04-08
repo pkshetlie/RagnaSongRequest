@@ -1,5 +1,10 @@
+# No longer maintained
+I'm now working on [RagnaCustoms.com](https://ragnacustoms.com), I quit ragnasong
+
+
+
 # RagnaSong
-Application pour automatiser le téléchargement de chansons depuis [RagnaSong.com](https://ragnasong.com) pour les streamers twitch
+Application pour automatiser le téléchargement de chansons depuis RagnaSong pour les streamers twitch
 
 # Comment l'utiliser 
 ## pour le streamer : 
@@ -10,7 +15,7 @@ Modifier le fichier .env
 Démarrer l'applciation comme n'importe quelle autre.
 
 ## Pour les viewers
-Aller sur [RagnaSong.com](https://ragnasong.com)
+Aller sur RagnaSong
 cliquer sur la chanson choisie, dans l'url vous pouvez voir par exemple : ```https://ragnasong.com/m/84``` regardez le 84 c'est l'ID de la chanson, copiez le et coller dans le tchat du streamer : 
 ```!rq <song ID>```
 
